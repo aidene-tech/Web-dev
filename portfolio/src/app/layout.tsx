@@ -21,7 +21,7 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "Burak | Creative Developer",
+  title: "Burak | Tech Enthusiast",
   description: "Ultra-modern portfolio featuring 3D experiences and creative development.",
 };
 

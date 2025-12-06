@@ -18,3 +18,11 @@ model Post {
   slug      String   @unique
   createdAt DateTime @default(now())
 }
+
+model Contact {
+  id        String   @id @default(uuid())
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+}
