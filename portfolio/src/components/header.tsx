@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLenis } from "lenis/react";
+import { usePathname } from "next/navigation";
 
 // Defined transition checkpoints based on HomeContent.tsx logic
 // Total height: 600vh
@@ -15,30 +16,45 @@ import { useLenis } from "lenis/react";
 // Contact: 0.9 (Range 0.75-0.9)
 
 const navItems = [
-    { name: "About", progress: 0.25 },
-    { name: "Projects", progress: 0.45 },
-    { name: "Blog", progress: 0.65 },
-    { name: "Contact", progress: 0.9 },
+    { name: "About", progress: 0.14, path: "/#about" },
+    { name: "Projects", progress: 0.27, path: "/#projects" },
+    { name: "Blog", progress: 0.42, path: "/#blog" },
+    { name: "Contact", progress: 0.87, path: "/#contact" },
 ];
 
 export function Header() {
     const [activeSection, setActiveSection] = useState<string>("");
     const { scrollYProgress } = useScroll();
+    const pathname = usePathname();
+    const isHomePage = pathname === "/";
+    const isBlogPage = pathname.startsWith("/blog");
+
+    // Set active section based on URL for non-home pages
+    useEffect(() => {
+        if (isBlogPage) {
+            setActiveSection("Blog");
+        } else if (pathname.startsWith("/admin")) {
+            setActiveSection("");
+        }
+    }, [pathname, isBlogPage]);
 
     useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        if (latest < 0.1) {
+        // Only update based on scroll if on home page
+        if (!isHomePage) return;
+
+        if (latest < 0.12) {
             setActiveSection("");
             return;
         }
 
-        // Determine active section based on visibility windows
-        if (latest >= 0.1 && latest < 0.3) {
+        // Determine active section based on visibility windows (700vh)
+        if (latest >= 0.12 && latest < 0.25) {
             setActiveSection("About");
-        } else if (latest >= 0.3 && latest < 0.5) {
+        } else if (latest >= 0.25 && latest < 0.40) {
             setActiveSection("Projects");
-        } else if (latest >= 0.5 && latest < 0.75) {
+        } else if (latest >= 0.40 && latest < 0.85) {
             setActiveSection("Blog");
-        } else if (latest >= 0.75) {
+        } else if (latest >= 0.85) {
             setActiveSection("Contact");
         }
     });
@@ -59,6 +75,15 @@ export function Header() {
         });
     };
 
+    const handleNavClick = (item: typeof navItems[0]) => {
+        if (isHomePage) {
+            scrollToSection(item.progress);
+        } else {
+            // Navigate to home page first, then scroll
+            window.location.href = item.path;
+        }
+    };
+
     return (
         <motion.header
             initial={{ y: -100 }}
@@ -69,7 +94,7 @@ export function Header() {
             <nav className="flex items-center gap-2 rounded-full border border-white/10 bg-black/50 px-2 py-2 backdrop-blur-md supports-[backdrop-filter]:bg-black/20">
                 <Link
                     href="/"
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    onClick={() => isHomePage && window.scrollTo({ top: 0, behavior: 'smooth' })}
                     className="text-lg font-bold tracking-tighter text-white mr-4 px-4 hover:text-zinc-300 transition-colors"
                 >
                     BURAK
@@ -78,7 +103,7 @@ export function Header() {
                     {navItems.map((item) => (
                         <button
                             key={item.name}
-                            onClick={() => scrollToSection(item.progress)}
+                            onClick={() => handleNavClick(item)}
                             className={cn(
                                 "relative px-4 py-2 text-sm font-medium transition-colors rounded-full",
                                 activeSection === item.name ? "text-black" : "text-zinc-400 hover:text-white"
@@ -103,3 +128,4 @@ export function Header() {
         </motion.header>
     );
 }
+
