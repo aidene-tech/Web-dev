@@ -3,29 +3,16 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-
-const posts = [
-    {
-        title: "The Future of Web Development: What to Expect in 2025",
-        excerpt: "Exploring the rise of AI-driven coding, server components, and the next generation of frontend frameworks.",
-        date: "Dec 12, 2024",
-        slug: "#"
-    },
-    {
-        title: "Mastering React Server Components",
-        excerpt: "A deep dive into how RSCs are reshaping the way we build performant web applications.",
-        date: "Nov 28, 2024",
-        slug: "#"
-    },
-    {
-        title: "Why You Should Use Tailwind CSS",
-        excerpt: "Efficiency, scalability, and ease of use. Why utility-first CSS is the way forward.",
-        date: "Oct 15, 2024",
-        slug: "#"
-    }
-];
+import { getPosts } from "@/actions/blog";
+import { useEffect, useState } from "react";
 
 export function Blog({ className }: { className?: string }) {
+    const [posts, setPosts] = useState<any[]>([]);
+
+    useEffect(() => {
+        getPosts().then(setPosts);
+    }, []);
+
     return (
         <section className={`py-32 px-6 md:px-12 bg-zinc-950 relative z-10 ${className}`}>
             <div className="max-w-6xl mx-auto">
