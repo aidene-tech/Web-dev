@@ -103,13 +103,15 @@ export function Header() {
                 </Link>
                 <div className="flex items-center">
                     {navItems.map((item) => (
-                        <button
+                        <motion.button
                             key={item.name}
                             onClick={() => handleNavClick(item)}
                             className={cn(
                                 "relative px-4 py-2 text-sm font-medium transition-colors rounded-full",
                                 activeSection === item.name ? "text-black" : "text-zinc-400 hover:text-white"
                             )}
+                            whileHover={{ scale: 1.5 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
                         >
                             {activeSection === item.name && (
                                 <motion.div
@@ -123,7 +125,7 @@ export function Header() {
                                 />
                             )}
                             {item.name}
-                        </button>
+                        </motion.button>
                     ))}
                 </div>
             </nav>
