@@ -26,6 +26,8 @@ export const metadata: Metadata = {
   description: "Ultra-modern portfolio featuring 3D experiences and creative development.",
 };
 
+import { StarfieldBackground } from "@/components/starfield-background";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,16 +36,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased bg-black`}
         suppressHydrationWarning
       >
-        <CustomCursor />
-        <SmoothScroller>
-          <Header />
-          <PageTransition>
-            {children}
-          </PageTransition>
-        </SmoothScroller>
+        <StarfieldBackground className="fixed inset-0 z-0 pointer-events-none" />
+        <div className="relative z-10">
+          <CustomCursor />
+          <SmoothScroller>
+            <Header />
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </SmoothScroller>
+        </div>
       </body>
     </html>
   );

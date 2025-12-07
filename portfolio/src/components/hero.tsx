@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { StarfieldBackground } from "./starfield-background";
+
 
 export function Hero() {
     return (
-        <section className="h-screen w-full relative flex items-center justify-center overflow-hidden bg-black">
-            <StarfieldBackground />
+        <section className="h-screen w-full relative flex items-center justify-center overflow-hidden">
+            {/* Starfield removed, using global one */}
 
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center pointer-events-none">
                 <motion.h1

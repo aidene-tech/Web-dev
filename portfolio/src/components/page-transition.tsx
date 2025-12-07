@@ -45,7 +45,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
         The grid container ensures that the exiting and entering pages 
         overlap perfectly in the same coordinate space.
       */}
-            <div className="relative w-full min-h-screen grid grid-cols-1 grid-rows-1 bg-black">
+            <div className="relative w-full min-h-screen grid grid-cols-1 grid-rows-1">
                 <AnimatePresence
                     mode="popLayout" // "popLayout" allows the exiting component to 'pop' out of the flow proper while entering takes its place in the grid
                     initial={false}
@@ -56,7 +56,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
                         initial="initial"
                         animate="enter"
                         exit="exit"
-                        className="w-full h-full min-h-screen [grid-area:1/1] row-start-1 col-start-1 will-change-[transform,opacity,filter] bg-black"
+                        className="w-full h-full min-h-screen [grid-area:1/1] row-start-1 col-start-1 will-change-[transform,opacity,filter]"
                         style={{
                             transformOrigin: "center top", // Expand from top-center usually looks good or center for pure emerge
                         }}

@@ -8,8 +8,6 @@ import { About } from "./about";
 import { Blog } from "./blog";
 import { Contact } from "./contact";
 
-import { StarfieldBackground } from "./starfield-background";
-
 export function HomeContent() {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -25,38 +23,58 @@ export function HomeContent() {
     // 4. Blog: 0.40 - 0.42 (transition), 0.42 - 0.85 (visible) - LARGE AREA
     // 5. Contact: 0.85 - 0.87 (transition), 0.87 - 1.0 (visible)
 
-    // Short transition (2% of scroll), then stays visible
-    const createIncomingValues = (transitionStart: number, transitionEnd: number) => {
-        const opacity = useTransform(scrollYProgress, [transitionStart, transitionEnd], [0, 1]);
-        const scale = useTransform(scrollYProgress, [transitionStart, transitionEnd], [0.95, 1]);
-        // Pointer events: only when fully visible (after transition ends)
-        const pointerEvents = useTransform(scrollYProgress, (value) => {
-            return value >= transitionEnd ? "auto" : "none";
-        });
-        return { opacity, scale, pointerEvents };
-    };
+
 
     // Hero is always visible at start, hidden after About appears
     const heroPointerEvents = useTransform(scrollYProgress, (value) => {
         return value < 0.12 ? "auto" : "none";
     });
+    // Fade out Hero when About appears
+    const heroOpacity = useTransform(scrollYProgress, [0.12, 0.14], [1, 0]);
 
-    const about = createIncomingValues(0.12, 0.14);
-    const projects = createIncomingValues(0.25, 0.27);
-    const blog = createIncomingValues(0.40, 0.42);
-    const contact = createIncomingValues(0.85, 0.87);
+    // ABOUT
+    // Enters: 0.12-0.14 (Opacity 0->1, Scale 0.95->1)
+    // Exits: 0.25-0.27 (Opacity 1->0, Scale 1->0.95)
+    const aboutOpacity = useTransform(scrollYProgress, [0.12, 0.14, 0.25, 0.27], [0, 1, 1, 0]);
+    const aboutScale = useTransform(scrollYProgress, [0.12, 0.14, 0.25, 0.27], [0.95, 1, 1, 0.95]);
+    const aboutPointerEvents = useTransform(scrollYProgress, (value) => {
+        return (value >= 0.14 && value <= 0.25) ? "auto" : "none";
+    });
+
+    // PROJECTS
+    const projectsOpacity = useTransform(scrollYProgress, [0.25, 0.27, 0.40, 0.42], [0, 1, 1, 0]);
+    const projectsScale = useTransform(scrollYProgress, [0.25, 0.27, 0.40, 0.42], [0.95, 1, 1, 0.95]);
+    const projectsPointerEvents = useTransform(scrollYProgress, (value) => {
+        return (value >= 0.27 && value <= 0.40) ? "auto" : "none";
+    });
+
+    // BLOG
+    const blogOpacity = useTransform(scrollYProgress, [0.40, 0.42, 0.85, 0.87], [0, 1, 1, 0]);
+    const blogScale = useTransform(scrollYProgress, [0.40, 0.42, 0.85, 0.87], [0.95, 1, 1, 0.95]);
+    const blogPointerEvents = useTransform(scrollYProgress, (value) => {
+        return (value >= 0.42 && value <= 0.85) ? "auto" : "none";
+    });
+
+    // CONTACT
+    // Only enters. Stays visible at end.
+    const contactOpacity = useTransform(scrollYProgress, [0.85, 0.87], [0, 1]);
+    const contactScale = useTransform(scrollYProgress, [0.85, 0.87], [0.95, 1]);
+    const contactPointerEvents = useTransform(scrollYProgress, (value) => {
+        return value >= 0.87 ? "auto" : "none";
+    });
 
     return (
-        <div className="relative w-full bg-black">
+        <div className="relative w-full">
             {/* Scroll Track */}
             <div ref={containerRef} className="relative h-[700vh]">
                 <div className="sticky top-0 h-screen w-full overflow-hidden">
-                    {/* Site-wide Starfield Background */}
-                    <StarfieldBackground className="z-0" />
 
                     {/* HERO - Z-0 - Static Base */}
                     <motion.div
-                        style={{ pointerEvents: heroPointerEvents }}
+                        style={{
+                            pointerEvents: heroPointerEvents,
+                            opacity: heroOpacity
+                        }}
                         className="absolute inset-0 z-0 flex items-center justify-center w-full h-full"
                         suppressHydrationWarning
                     >
@@ -66,11 +84,11 @@ export function HomeContent() {
                     {/* ABOUT - Z-10 */}
                     <motion.div
                         style={{
-                            opacity: about.opacity,
-                            scale: about.scale,
-                            pointerEvents: about.pointerEvents
+                            opacity: aboutOpacity,
+                            scale: aboutScale,
+                            pointerEvents: aboutPointerEvents
                         }}
-                        className="absolute inset-0 z-10 flex items-center justify-center bg-black"
+                        className="absolute inset-0 z-10 flex items-center justify-center"
                         suppressHydrationWarning
                     >
                         <div className="w-full h-full overflow-y-auto no-scrollbar">
@@ -83,11 +101,11 @@ export function HomeContent() {
                     {/* PROJECTS - Z-20 */}
                     <motion.div
                         style={{
-                            opacity: projects.opacity,
-                            scale: projects.scale,
-                            pointerEvents: projects.pointerEvents
+                            opacity: projectsOpacity,
+                            scale: projectsScale,
+                            pointerEvents: projectsPointerEvents
                         }}
-                        className="absolute inset-0 z-20 flex items-center justify-center bg-black"
+                        className="absolute inset-0 z-20 flex items-center justify-center"
                         suppressHydrationWarning
                     >
                         <div className="w-full h-full overflow-y-auto no-scrollbar">
@@ -100,11 +118,11 @@ export function HomeContent() {
                     {/* BLOG - Z-30 */}
                     <motion.div
                         style={{
-                            opacity: blog.opacity,
-                            scale: blog.scale,
-                            pointerEvents: blog.pointerEvents
+                            opacity: blogOpacity,
+                            scale: blogScale,
+                            pointerEvents: blogPointerEvents
                         }}
-                        className="absolute inset-0 z-30 flex items-center justify-center bg-black"
+                        className="absolute inset-0 z-30 flex items-center justify-center"
                         suppressHydrationWarning
                     >
                         <div className="w-full h-full overflow-y-auto no-scrollbar">
@@ -117,11 +135,11 @@ export function HomeContent() {
                     {/* CONTACT + FOOTER - Z-40 */}
                     <motion.div
                         style={{
-                            opacity: contact.opacity,
-                            scale: contact.scale,
-                            pointerEvents: contact.pointerEvents
+                            opacity: contactOpacity,
+                            scale: contactScale,
+                            pointerEvents: contactPointerEvents
                         }}
-                        className="absolute inset-0 z-40 flex items-center justify-center bg-black"
+                        className="absolute inset-0 z-40 flex items-center justify-center"
                         suppressHydrationWarning
                     >
                         <div className="w-full h-full overflow-y-auto no-scrollbar">
