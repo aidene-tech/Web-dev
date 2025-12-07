@@ -63,7 +63,7 @@ export function Contact({ className }: { className?: string }) {
         <section id="contact" className={`py-32 px-6 relative z-10 border-t border-zinc-900 ${className}`}>
             <div className="max-w-4xl mx-auto text-center">
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0, scale: 0.5 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}

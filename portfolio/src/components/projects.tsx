@@ -30,7 +30,7 @@ export function Projects({ className }: { className?: string }) {
         <section id="projects" className={`py-16 px-6 md:px-12 relative z-10 ${className}`}>
             <div className="max-w-4xl mx-auto">
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.5 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
