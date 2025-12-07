@@ -155,27 +155,30 @@ export function Header() {
                 <div className="flex items-center gap-4 px-2">
                     <motion.a
                         href="#"
+                        onClick={playClickSound}
                         className="text-zinc-400 hover:text-white transition-colors"
                         whileHover={{ scale: 1.5 }}
                         transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                        <Twitter size={18} />
+                        <Twitter size={18} suppressHydrationWarning />
                     </motion.a>
                     <motion.a
                         href="#"
+                        onClick={playClickSound}
                         className="text-zinc-400 hover:text-white transition-colors"
                         whileHover={{ scale: 1.5 }}
                         transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                        <Github size={18} />
+                        <Github size={18} suppressHydrationWarning />
                     </motion.a>
                     <motion.a
                         href="#"
+                        onClick={playClickSound}
                         className="text-zinc-400 hover:text-white transition-colors"
                         whileHover={{ scale: 1.5 }}
                         transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                        <LinkIcon size={18} />
+                        <LinkIcon size={18} suppressHydrationWarning />
                     </motion.a>
                 </div>
             </nav>
