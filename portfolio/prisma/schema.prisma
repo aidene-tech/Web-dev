@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Post {
@@ -25,4 +26,15 @@ model Contact {
   message   String
   createdAt DateTime @default(now())
   read      Boolean  @default(false)
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  imageUrl    String?
+  demoLink    String?
+  repoLink    String?
+  tags        String
+  createdAt   DateTime @default(now())
 }

@@ -56,7 +56,7 @@ function StarField(props: any) {
 export function Hero() {
     return (
         <section className="h-screen w-full relative flex items-center justify-center overflow-hidden bg-black">
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full" suppressHydrationWarning>
                 <Canvas camera={{ position: [0, 0, 1] }}>
                     <StarField />
                     <Preload all />

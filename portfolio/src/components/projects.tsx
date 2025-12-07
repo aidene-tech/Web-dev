@@ -3,33 +3,15 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight, Github } from "lucide-react";
-
-// Placeholder data - replace with real projects later
-const projects = [
-    {
-        title: "E-Commerce Platform",
-        description: "Full-featured online store with cart and checkout",
-        tags: ["Next.js", "TypeScript", "Stripe"],
-        link: "#",
-        github: "#"
-    },
-    {
-        title: "AI Task Manager",
-        description: "Smart task organization with AI prioritization",
-        tags: ["React", "Python", "OpenAI"],
-        link: "#",
-        github: "#"
-    },
-    {
-        title: "Portfolio v1",
-        description: "First portfolio with vanilla technologies",
-        tags: ["HTML", "CSS", "JavaScript"],
-        link: "#",
-        github: "#"
-    }
-];
+import { getProjects } from "@/actions/projects";
+import { useEffect, useState } from "react";
 
 export function Projects({ className }: { className?: string }) {
+    const [projects, setProjects] = useState<any[]>([]);
+
+    useEffect(() => {
+        getProjects().then(setProjects);
+    }, []);
     return (
         <section id="projects" className={`py-16 px-6 md:px-12 bg-zinc-950 relative z-10 ${className}`}>
             <div className="max-w-4xl mx-auto">
@@ -52,7 +34,7 @@ export function Projects({ className }: { className?: string }) {
                     <div className="space-y-2">
                         {projects.map((project, index) => (
                             <motion.div
-                                key={index}
+                                key={project.id}
                                 initial={{ opacity: 0, x: -20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -67,9 +49,9 @@ export function Projects({ className }: { className?: string }) {
                                         <div className="flex-1 min-w-0 flex items-center gap-4">
                                             {/* Tags */}
                                             <div className="hidden sm:flex gap-1">
-                                                {project.tags.slice(0, 2).map((tag, i) => (
+                                                {project.tags?.split(',').slice(0, 2).map((tag: string, i: number) => (
                                                     <span key={i} className="px-2 py-0.5 text-[10px] font-medium text-zinc-400 bg-zinc-800 rounded">
-                                                        {tag}
+                                                        {tag.trim()}
                                                     </span>
                                                 ))}
                                             </div>
@@ -82,24 +64,36 @@ export function Projects({ className }: { className?: string }) {
 
                                         {/* Links */}
                                         <div className="flex items-center gap-3 flex-shrink-0">
-                                            <Link
-                                                href={project.github}
-                                                className="text-zinc-600 hover:text-white transition-colors"
-                                            >
-                                                <Github size={14} />
-                                            </Link>
-                                            <Link
-                                                href={project.link}
-                                                className="text-zinc-600 hover:text-purple-400 transition-colors"
-                                            >
-                                                <ArrowUpRight size={14} />
-                                            </Link>
+                                            {project.repoLink && (
+                                                <Link
+                                                    href={project.repoLink}
+                                                    className="text-zinc-600 hover:text-white transition-colors"
+                                                    target="_blank"
+                                                >
+                                                    <Github size={14} />
+                                                </Link>
+                                            )}
+                                            {project.demoLink && (
+                                                <Link
+                                                    href={project.demoLink}
+                                                    className="text-zinc-600 hover:text-purple-400 transition-colors"
+                                                    target="_blank"
+                                                >
+                                                    <ArrowUpRight size={14} />
+                                                </Link>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
+
+                    {projects.length === 0 && (
+                        <div className="text-center text-zinc-500 py-8">
+                            No projects yet. Check back soon!
+                        </div>
+                    )}
                 </div>
             </div>
         </section>
