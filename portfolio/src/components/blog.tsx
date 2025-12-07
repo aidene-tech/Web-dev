@@ -7,14 +7,27 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export function Blog({ className }: { className?: string }) {
+    const [mounted, setMounted] = useState(false);
     const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
+        setMounted(true);
         getPosts().then(setPosts);
     }, []);
 
+    if (!mounted) {
+        return (
+            <section id="blog" className={`py-16 px-6 md:px-12 relative z-10 ${className}`}>
+                <div className="max-w-4xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Latest Articles</h2>
+                    <div className="h-1 w-16 bg-white" />
+                </div>
+            </section>
+        );
+    }
+
     return (
-        <section id="blog" className={`py-16 px-6 md:px-12 bg-zinc-950 relative z-10 ${className}`}>
+        <section id="blog" className={`py-16 px-6 md:px-12 relative z-10 ${className}`}>
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}

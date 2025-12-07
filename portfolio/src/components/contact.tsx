@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import { saveContact } from "@/actions/contact";
 
 export function Contact({ className }: { className?: string }) {
+    const [mounted, setMounted] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         message: ""
     });
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,8 +46,21 @@ export function Contact({ className }: { className?: string }) {
         }
     };
 
+    if (!mounted) {
+        return (
+            <section id="contact" className={`py-32 px-6 relative z-10 border-t border-zinc-900 ${className}`}>
+                <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tighter">Get in touch</h2>
+                    <p className="text-zinc-400 mb-12 text-lg max-w-2xl mx-auto">
+                        If you'd like to contact me, feel free to send a message below.
+                    </p>
+                </div>
+            </section>
+        );
+    }
+
     return (
-        <section id="contact" className={`py-32 px-6 relative z-10 bg-zinc-950 border-t border-zinc-900 ${className}`}>
+        <section id="contact" className={`py-32 px-6 relative z-10 border-t border-zinc-900 ${className}`}>
             <div className="max-w-4xl mx-auto text-center">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}

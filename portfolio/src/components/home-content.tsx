@@ -8,6 +8,7 @@ import { About } from "./about";
 import { Blog } from "./blog";
 import { Contact } from "./contact";
 import { Footer } from "./footer";
+import { StarfieldBackground } from "./starfield-background";
 
 export function HomeContent() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -50,11 +51,14 @@ export function HomeContent() {
             {/* Scroll Track */}
             <div ref={containerRef} className="relative h-[700vh]">
                 <div className="sticky top-0 h-screen w-full overflow-hidden">
+                    {/* Site-wide Starfield Background */}
+                    <StarfieldBackground className="z-0" />
 
                     {/* HERO - Z-0 - Static Base */}
                     <motion.div
                         style={{ pointerEvents: heroPointerEvents }}
                         className="absolute inset-0 z-0 flex items-center justify-center w-full h-full"
+                        suppressHydrationWarning
                     >
                         <Hero />
                     </motion.div>
@@ -66,9 +70,10 @@ export function HomeContent() {
                             scale: about.scale,
                             pointerEvents: about.pointerEvents
                         }}
-                        className="absolute inset-0 z-10 flex items-center justify-center"
+                        className="absolute inset-0 z-10 flex items-center justify-center bg-black"
+                        suppressHydrationWarning
                     >
-                        <div className="w-full h-full overflow-y-auto no-scrollbar bg-zinc-950">
+                        <div className="w-full h-full overflow-y-auto no-scrollbar">
                             <div className="min-h-full flex flex-col items-center pt-24 pb-12">
                                 <About />
                             </div>
@@ -82,9 +87,10 @@ export function HomeContent() {
                             scale: projects.scale,
                             pointerEvents: projects.pointerEvents
                         }}
-                        className="absolute inset-0 z-20 flex items-center justify-center"
+                        className="absolute inset-0 z-20 flex items-center justify-center bg-black"
+                        suppressHydrationWarning
                     >
-                        <div className="w-full h-full overflow-y-auto no-scrollbar bg-zinc-950">
+                        <div className="w-full h-full overflow-y-auto no-scrollbar">
                             <div className="min-h-full flex flex-col items-center pt-24 pb-12">
                                 <Projects />
                             </div>
@@ -98,9 +104,10 @@ export function HomeContent() {
                             scale: blog.scale,
                             pointerEvents: blog.pointerEvents
                         }}
-                        className="absolute inset-0 z-30 flex items-center justify-center"
+                        className="absolute inset-0 z-30 flex items-center justify-center bg-black"
+                        suppressHydrationWarning
                     >
-                        <div className="w-full h-full overflow-y-auto no-scrollbar bg-zinc-950">
+                        <div className="w-full h-full overflow-y-auto no-scrollbar">
                             <div className="min-h-full flex flex-col items-center pt-24 pb-12">
                                 <Blog />
                             </div>
@@ -114,9 +121,10 @@ export function HomeContent() {
                             scale: contact.scale,
                             pointerEvents: contact.pointerEvents
                         }}
-                        className="absolute inset-0 z-40 flex items-center justify-center"
+                        className="absolute inset-0 z-40 flex items-center justify-center bg-black"
+                        suppressHydrationWarning
                     >
-                        <div className="w-full h-full overflow-y-auto no-scrollbar bg-zinc-950">
+                        <div className="w-full h-full overflow-y-auto no-scrollbar">
                             <div className="min-h-full flex flex-col items-center pt-24 pb-0">
                                 <Contact className="min-h-[60vh] flex items-center" />
                                 <Footer className="w-full mt-auto" />

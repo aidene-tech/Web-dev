@@ -7,13 +7,27 @@ import { getProjects } from "@/actions/projects";
 import { useEffect, useState } from "react";
 
 export function Projects({ className }: { className?: string }) {
+    const [mounted, setMounted] = useState(false);
     const [projects, setProjects] = useState<any[]>([]);
 
     useEffect(() => {
+        setMounted(true);
         getProjects().then(setProjects);
     }, []);
+
+    if (!mounted) {
+        return (
+            <section id="projects" className={`py-16 px-6 md:px-12 relative z-10 ${className}`}>
+                <div className="max-w-4xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Featured Projects</h2>
+                    <div className="h-1 w-16 bg-white" />
+                </div>
+            </section>
+        );
+    }
+
     return (
-        <section id="projects" className={`py-16 px-6 md:px-12 bg-zinc-950 relative z-10 ${className}`}>
+        <section id="projects" className={`py-16 px-6 md:px-12 relative z-10 ${className}`}>
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
