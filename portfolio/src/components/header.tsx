@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Twitter, Github, Link as LinkIcon } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useLenis } from "lenis/react";
@@ -76,7 +77,27 @@ export function Header() {
         });
     };
 
+    const playClickSound = () => {
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.1); // Click effect
+
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.1);
+    };
+
     const handleNavClick = (item: typeof navItems[0]) => {
+        playClickSound();
         if (isHomePage) {
             scrollToSection(item.progress, true);
         } else {
@@ -127,6 +148,35 @@ export function Header() {
                             {item.name}
                         </motion.button>
                     ))}
+                </div>
+
+                <div className="h-4 w-[1px] bg-white/10 mx-2" />
+
+                <div className="flex items-center gap-4 px-2">
+                    <motion.a
+                        href="#"
+                        className="text-zinc-400 hover:text-white transition-colors"
+                        whileHover={{ scale: 1.5 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                        <Twitter size={18} />
+                    </motion.a>
+                    <motion.a
+                        href="#"
+                        className="text-zinc-400 hover:text-white transition-colors"
+                        whileHover={{ scale: 1.5 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                        <Github size={18} />
+                    </motion.a>
+                    <motion.a
+                        href="#"
+                        className="text-zinc-400 hover:text-white transition-colors"
+                        whileHover={{ scale: 1.5 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                        <LinkIcon size={18} />
+                    </motion.a>
                 </div>
             </nav>
         </motion.header>

@@ -7,7 +7,7 @@ import { Projects } from "./projects";
 import { About } from "./about";
 import { Blog } from "./blog";
 import { Contact } from "./contact";
-import { Footer } from "./footer";
+
 import { StarfieldBackground } from "./starfield-background";
 
 export function HomeContent() {
@@ -127,7 +127,7 @@ export function HomeContent() {
                         <div className="w-full h-full overflow-y-auto no-scrollbar">
                             <div className="min-h-full flex flex-col items-center pt-24 pb-0">
                                 <Contact className="min-h-[60vh] flex items-center" />
-                                <Footer className="w-full mt-auto" />
+
                             </div>
                         </div>
                     </motion.div>
