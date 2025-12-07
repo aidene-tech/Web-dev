@@ -61,7 +61,7 @@ export function Header() {
 
     const lenis = useLenis();
 
-    const scrollToSection = (progress: number) => {
+    const scrollToSection = (progress: number, immediate = false) => {
         if (!lenis) return;
 
         // Correctly calculate scrollable height (Total Document Height - Viewport Height)
@@ -70,16 +70,18 @@ export function Header() {
         const targetScroll = totalHeight * progress;
 
         lenis.scrollTo(targetScroll, {
-            duration: 1.5,
+            immediate: immediate,
+            duration: immediate ? 0 : 1.5,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) // Optional: Match Lenis default or custom easing
         });
     };
 
     const handleNavClick = (item: typeof navItems[0]) => {
         if (isHomePage) {
-            scrollToSection(item.progress);
+            scrollToSection(item.progress, true);
         } else {
             // Navigate to home page first, then scroll
+            // Store target section in session storage or URL hash to scroll after load if needed
             window.location.href = item.path;
         }
     };
